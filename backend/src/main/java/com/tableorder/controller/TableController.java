@@ -3,7 +3,7 @@ package com.tableorder.controller;
 import com.tableorder.dto.request.TableSetupRequest;
 import com.tableorder.dto.response.*;
 import com.tableorder.service.TableService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

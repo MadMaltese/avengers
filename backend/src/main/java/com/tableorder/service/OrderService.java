@@ -4,7 +4,7 @@ import com.tableorder.dto.request.OrderCreateRequest;
 import com.tableorder.dto.response.*;
 import com.tableorder.entity.*;
 import com.tableorder.repository.*;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,16 +39,16 @@ public class OrderService {
         order.setStatus(OrderStatus.PENDING);
 
         int total = 0;
-        for (var itemReq : req.items()) {
-            Menu menu = menuRepository.findById(itemReq.menuId()).orElseThrow(() -> new EntityNotFoundException("Menu not found: " + itemReq.menuId()));
+        for (var itemReq : req.getItems()) {
+            Menu menu = menuRepository.findById(itemReq.getMenuId()).orElseThrow(() -> new EntityNotFoundException("Menu not found: " + itemReq.getMenuId()));
             OrderItem item = new OrderItem();
             item.setOrder(order);
             item.setMenu(menu);
             item.setMenuName(menu.getName());
-            item.setQuantity(itemReq.quantity());
+            item.setQuantity(itemReq.getQuantity());
             item.setUnitPrice(menu.getPrice());
             order.getItems().add(item);
-            total += itemReq.quantity() * menu.getPrice();
+            total += itemReq.getQuantity() * menu.getPrice();
         }
         order.setTotalAmount(total);
         Order saved = orderRepository.save(order);
@@ -60,11 +60,11 @@ public class OrderService {
     }
 
     public List<OrderResponse> getOrdersByTable(Long storeId, Long tableId, String sessionId) {
-        return orderRepository.findByStoreIdAndTableIdAndSessionIdOrderByCreatedAt(storeId, tableId, sessionId).stream().map(this::toResponse).toList();
+        return orderRepository.findByStoreIdAndTableIdAndSessionIdOrderByCreatedAt(storeId, tableId, sessionId).stream().map(this::toResponse).collect(java.util.stream.Collectors.toList());
     }
 
     public List<OrderResponse> getOrdersByStore(Long storeId) {
-        return orderRepository.findByStoreIdOrderByCreatedAtDesc(storeId).stream().map(this::toResponse).toList();
+        return orderRepository.findByStoreIdOrderByCreatedAtDesc(storeId).stream().map(this::toResponse).collect(java.util.stream.Collectors.toList());
     }
 
     @Transactional
@@ -90,7 +90,7 @@ public class OrderService {
     }
 
     private OrderResponse toResponse(Order o) {
-        var items = o.getItems().stream().map(i -> new OrderItemResponse(i.getId(), i.getMenuName(), i.getQuantity(), i.getUnitPrice())).toList();
+        var items = o.getItems().stream().map(i -> new OrderItemResponse(i.getId(), i.getMenuName(), i.getQuantity(), i.getUnitPrice())).collect(java.util.stream.Collectors.toList());
         return new OrderResponse(o.getId(), o.getTable().getId(), o.getTable().getTableNo(), o.getSessionId(), o.getStatus().name(), o.getTotalAmount(), items, o.getCreatedAt());
     }
 }

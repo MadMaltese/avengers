@@ -1,3 +1,5 @@
 package com.tableorder.dto.request;
-import jakarta.validation.constraints.*;
-public record TableSetupRequest(@NotNull Integer tableNo, @NotBlank String password) {}
+import lombok.*;
+import javax.validation.constraints.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class TableSetupRequest { @NotNull private Integer tableNo; @NotBlank private String password; }

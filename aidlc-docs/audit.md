@@ -201,3 +201,52 @@
 **Context**: CONSTRUCTION - Code Generation, database + backend units complete
 
 ---
+
+## CONSTRUCTION - Code Generation (frontend unit) - Resumed
+**Timestamp**: 2026-02-09T15:35:00+09:00
+**User Input**: "계속 진행해줘"
+**AI Response**: Frontend unit 코드 생성 재개 및 완료
+**Context**: 이전 세션에서 중단된 frontend unit 코드 생성 재개
+
+### 생성된 파일 (이번 세션)
+- `frontend/src/pages/customer/OrderPage.tsx` - 주문 내역 페이지 (SSE 실시간 업데이트)
+- `frontend/src/pages/admin/LoginPage.tsx` - 관리자 로그인
+- `frontend/src/pages/admin/DashboardPage.tsx` - 주문 대시보드 (SSE, 상태 변경, 테이블 관리)
+- `frontend/src/pages/admin/MenuManagementPage.tsx` - 메뉴 CRUD
+- `frontend/src/App.tsx` - React Router 설정 + Nav
+- `frontend/src/main.tsx` - 엔트리 포인트
+- `frontend/src/__tests__/cartStore.test.ts` - TC-FE-001~007 (7 tests)
+- `frontend/src/__tests__/authStore.test.ts` - TC-FE-008~009 (2 tests)
+- `frontend/src/__tests__/useSSE.test.ts` - TC-FE-010~011 (2 tests)
+- `frontend/src/__tests__/ProtectedRoute.test.tsx` - TC-FE-012~013 (2 tests)
+
+### 환경 이슈 해결
+- Node.js v16.20.2 환경에서 Vite 6.x/5.4.x 호환 불가 → Vite 5.2.14로 다운그레이드
+- tsconfig.json `noUncheckedSideEffectImports` 옵션 제거 (TS 5.4 미지원)
+
+### 검증 결과
+- ✅ 테스트: 4 files, 13 tests 전체 통과
+- ✅ 타입 체크: `tsc --noEmit` 에러 없음
+- ✅ 빌드: `vite build` 성공 (228KB gzipped 75KB)
+
+---
+
+## Build and Test Stage
+**Timestamp**: 2026-02-09T15:45:34+09:00
+**User Input**: "go"
+**AI Response**: Build and Test 스테이지 실행 - 빌드/테스트 가이드 문서 5개 생성
+**Context**: CONSTRUCTION Phase 마지막 스테이지
+
+### 생성된 파일
+- `aidlc-docs/construction/build-and-test/build-instructions.md`
+- `aidlc-docs/construction/build-and-test/unit-test-instructions.md`
+- `aidlc-docs/construction/build-and-test/integration-test-instructions.md`
+- `aidlc-docs/construction/build-and-test/performance-test-instructions.md`
+- `aidlc-docs/construction/build-and-test/build-and-test-summary.md`
+
+### 결과
+- Build: 전체 3 units 성공
+- Unit Tests: 26/26 통과 (backend 13 + frontend 13)
+- Integration/Performance: 수동 검증 가이드 문서화
+
+---

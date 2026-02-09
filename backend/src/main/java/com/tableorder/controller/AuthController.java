@@ -3,7 +3,7 @@ package com.tableorder.controller;
 import com.tableorder.dto.request.*;
 import com.tableorder.dto.response.TokenResponse;
 import com.tableorder.service.AuthService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

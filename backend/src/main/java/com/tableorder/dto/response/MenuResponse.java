@@ -1,2 +1,4 @@
 package com.tableorder.dto.response;
-public record MenuResponse(Long id, Long categoryId, String categoryName, String name, Integer price, String description, int sortOrder) {}
+import lombok.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class MenuResponse { private Long id; private Long categoryId; private String categoryName; private String name; private Integer price; private String description; private int sortOrder; }

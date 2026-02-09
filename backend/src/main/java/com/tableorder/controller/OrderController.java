@@ -3,7 +3,7 @@ package com.tableorder.controller;
 import com.tableorder.dto.request.*;
 import com.tableorder.dto.response.OrderResponse;
 import com.tableorder.service.OrderService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class OrderController {
 
     @PatchMapping("/api/orders/{orderId}/status")
     public OrderResponse updateStatus(@PathVariable UUID orderId, @Valid @RequestBody OrderStatusRequest req) {
-        return orderService.updateOrderStatus(orderId, req.status());
+        return orderService.updateOrderStatus(orderId, req.getStatus());
     }
 
     @DeleteMapping("/api/orders/{orderId}")

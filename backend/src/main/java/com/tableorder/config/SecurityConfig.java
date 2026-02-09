@@ -3,6 +3,7 @@ package com.tableorder.config;
 import com.tableorder.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,24 +18,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-            .csrf(c -> c.disable())
-            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(a -> a
-                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/api/stores/*/sse/orders").hasRole("ADMIN")
-                .requestMatchers("/api/stores/*/tables/*/sse/orders").hasRole("TABLE")
-                .requestMatchers("/api/stores/*/tables/*/orders/**").hasAnyRole("TABLE", "ADMIN")
-                .requestMatchers("/api/orders/*/status", "/api/orders/*").hasRole("ADMIN")
-                .requestMatchers("/api/stores/*/tables/**").hasRole("ADMIN")
-                .requestMatchers("/api/stores/*/menus/order").hasRole("ADMIN")
-                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/stores/*/menus/**", "/api/stores/*/categories").hasAnyRole("TABLE", "ADMIN")
-                .requestMatchers("/api/stores/*/menus/**").hasRole("ADMIN")
-                .requestMatchers("/api/stores/*/orders").hasRole("ADMIN")
+        http
+            .csrf().disable()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+                .antMatchers("/api/auth/**", "/h2-console/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/api/stores/*/sse/orders").hasRole("ADMIN")
+                .antMatchers("/api/stores/*/tables/*/sse/orders").hasRole("TABLE")
+                .antMatchers("/api/stores/*/tables/*/orders/**").hasAnyRole("TABLE", "ADMIN")
+                .antMatchers("/api/orders/*/status", "/api/orders/*").hasRole("ADMIN")
+                .antMatchers("/api/stores/*/tables/**").hasRole("ADMIN")
+                .antMatchers("/api/stores/*/menus/order").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/stores/*/menus/**", "/api/stores/*/categories").hasAnyRole("TABLE", "ADMIN")
+                .antMatchers("/api/stores/*/menus/**").hasRole("ADMIN")
+                .antMatchers("/api/stores/*/orders").hasRole("ADMIN")
                 .anyRequest().authenticated()
-            )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+            .and()
+            .headers().frameOptions().disable()
+            .and()
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
     }
 
     @Bean

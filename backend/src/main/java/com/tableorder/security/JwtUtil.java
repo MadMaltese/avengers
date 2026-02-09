@@ -19,17 +19,17 @@ public class JwtUtil {
 
     public String generateToken(Long storeId, Long entityId, String role, Integer tableNo) {
         var builder = Jwts.builder()
-                .subject(entityId.toString())
+                .setSubject(entityId.toString())
                 .claim("storeId", storeId)
                 .claim("role", role)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationMs))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(key);
         if (tableNo != null) builder.claim("tableNo", tableNo);
         return builder.compact();
     }
 
     public Claims validateToken(String token) {
-        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }

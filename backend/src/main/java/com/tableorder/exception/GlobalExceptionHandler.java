@@ -1,7 +1,7 @@
 package com.tableorder.exception;
 
 import com.tableorder.dto.response.ErrorResponse;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;

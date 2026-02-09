@@ -1,3 +1,5 @@
 package com.tableorder.dto.request;
-import jakarta.validation.constraints.*;
-public record AdminLoginRequest(@NotBlank String storeCode, @NotBlank String username, @NotBlank String password) {}
+import lombok.*;
+import javax.validation.constraints.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class AdminLoginRequest { @NotBlank private String storeCode; @NotBlank private String username; @NotBlank private String password; }

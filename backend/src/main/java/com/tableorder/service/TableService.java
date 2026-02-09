@@ -4,7 +4,7 @@ import com.tableorder.dto.request.TableSetupRequest;
 import com.tableorder.dto.response.*;
 import com.tableorder.entity.*;
 import com.tableorder.repository.*;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,8 +27,8 @@ public class TableService {
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new EntityNotFoundException("Store not found"));
         TableInfo table = new TableInfo();
         table.setStore(store);
-        table.setTableNo(req.tableNo());
-        table.setPassword(passwordEncoder.encode(req.password()));
+        table.setTableNo(req.getTableNo());
+        table.setPassword(passwordEncoder.encode(req.getPassword()));
         table.setStatus(TableStatus.EMPTY);
         TableInfo saved = tableInfoRepository.save(table);
         return toResponse(saved);
@@ -77,11 +77,11 @@ public class TableService {
         } else {
             histories = orderHistoryRepository.findByStoreIdAndTableIdOrderByCompletedAtDesc(storeId, tableId);
         }
-        return histories.stream().map(this::toHistoryResponse).toList();
+        return histories.stream().map(this::toHistoryResponse).collect(java.util.stream.Collectors.toList());
     }
 
     public List<TableResponse> getTablesByStore(Long storeId) {
-        return tableInfoRepository.findByStoreId(storeId).stream().map(this::toResponse).toList();
+        return tableInfoRepository.findByStoreId(storeId).stream().map(this::toResponse).collect(java.util.stream.Collectors.toList());
     }
 
     private TableResponse toResponse(TableInfo t) {
@@ -89,7 +89,7 @@ public class TableService {
     }
 
     private OrderHistoryResponse toHistoryResponse(OrderHistory h) {
-        var items = h.getItems().stream().map(i -> new OrderHistoryItemResponse(i.getMenuName(), i.getQuantity(), i.getUnitPrice())).toList();
+        var items = h.getItems().stream().map(i -> new OrderHistoryItemResponse(i.getMenuName(), i.getQuantity(), i.getUnitPrice())).collect(java.util.stream.Collectors.toList());
         return new OrderHistoryResponse(h.getId(), h.getSessionId(), h.getStatus(), h.getTotalAmount(), items, h.getCreatedAt(), h.getCompletedAt());
     }
 }

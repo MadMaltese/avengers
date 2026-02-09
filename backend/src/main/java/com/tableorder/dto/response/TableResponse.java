@@ -1,2 +1,4 @@
 package com.tableorder.dto.response;
-public record TableResponse(Long id, Integer tableNo, String sessionId, String status) {}
+import lombok.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class TableResponse { private Long id; private Integer tableNo; private String sessionId; private String status; }

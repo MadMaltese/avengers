@@ -1,6 +1,6 @@
 package com.tableorder.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 import java.util.*;

@@ -20,11 +20,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public TokenResponse tableLogin(TableLoginRequest req) {
-        Store store = storeRepository.findByCode(req.storeCode())
+        Store store = storeRepository.findByCode(req.getStoreCode())
                 .orElseThrow(() -> new IllegalStateException("Invalid credentials"));
-        TableInfo table = tableInfoRepository.findByStoreIdAndTableNo(store.getId(), req.tableNo())
+        TableInfo table = tableInfoRepository.findByStoreIdAndTableNo(store.getId(), req.getTableNo())
                 .orElseThrow(() -> new IllegalStateException("Invalid credentials"));
-        if (!passwordEncoder.matches(req.password(), table.getPassword()))
+        if (!passwordEncoder.matches(req.getPassword(), table.getPassword()))
             throw new IllegalStateException("Invalid credentials");
         String token = jwtUtil.generateToken(store.getId(), table.getId(), "TABLE", table.getTableNo());
         return new TokenResponse(token, store.getId(), table.getId(), table.getTableNo());
@@ -32,13 +32,13 @@ public class AuthService {
 
     @Transactional
     public TokenResponse adminLogin(AdminLoginRequest req) {
-        Store store = storeRepository.findByCode(req.storeCode())
+        Store store = storeRepository.findByCode(req.getStoreCode())
                 .orElseThrow(() -> new IllegalStateException("Invalid credentials"));
-        Admin admin = adminRepository.findByStoreAndUsername(store, req.username())
+        Admin admin = adminRepository.findByStoreAndUsername(store, req.getUsername())
                 .orElseThrow(() -> new IllegalStateException("Invalid credentials"));
         if (admin.getLockedUntil() != null && admin.getLockedUntil().isAfter(LocalDateTime.now()))
             throw new IllegalStateException("Account locked. Try again later.");
-        if (!passwordEncoder.matches(req.password(), admin.getPassword())) {
+        if (!passwordEncoder.matches(req.getPassword(), admin.getPassword())) {
             admin.setFailedAttempts(admin.getFailedAttempts() + 1);
             if (admin.getFailedAttempts() >= 10)
                 admin.setLockedUntil(LocalDateTime.now().plusMinutes(30));

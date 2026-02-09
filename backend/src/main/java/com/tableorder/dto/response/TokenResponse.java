@@ -1,2 +1,4 @@
 package com.tableorder.dto.response;
-public record TokenResponse(String token, Long storeId, Long tableId, Integer tableNo) {}
+import lombok.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class TokenResponse { private String token; private Long storeId; private Long tableId; private Integer tableNo; }

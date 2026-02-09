@@ -1,4 +1,6 @@
 package com.tableorder.dto.request;
-import jakarta.validation.constraints.*;
+import lombok.*;
+import javax.validation.constraints.*;
 import java.util.List;
-public record OrderCreateRequest(@NotEmpty List<OrderItemRequest> items) {}
+@Data @AllArgsConstructor @NoArgsConstructor
+public class OrderCreateRequest { @NotEmpty private List<OrderItemRequest> items; }

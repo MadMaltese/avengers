@@ -1,2 +1,4 @@
 package com.tableorder.dto.response;
-public record ErrorResponse(String error, String message) {}
+import lombok.*;
+@Data @AllArgsConstructor @NoArgsConstructor
+public class ErrorResponse { private String error; private String message; }
