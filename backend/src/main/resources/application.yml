@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: table-order
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tableorder
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  flyway:
+    locations: classpath:db/migration
+
+jwt:
+  secret: dGFibGVvcmRlci1zZWNyZXQta2V5LWZvci1qd3QtdG9rZW4tZ2VuZXJhdGlvbi0yMDI2
+  expiration-hours: 16
+
+server:
+  port: 8080
