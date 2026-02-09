@@ -11,7 +11,7 @@ public class TableInfo {
     private Long id;
     @ManyToOne @JoinColumn(name = "store_id", nullable = false)
     private Store store;
-    @Column(nullable = false)
+    @Column(name = "table_no", nullable = false)
     private Integer tableNo;
     @Column(nullable = false, length = 255)
     private String password;

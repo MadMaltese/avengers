@@ -59,10 +59,12 @@ public class OrderService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getOrdersByTable(Long storeId, Long tableId, String sessionId) {
         return orderRepository.findByStoreIdAndTableIdAndSessionIdOrderByCreatedAt(storeId, tableId, sessionId).stream().map(this::toResponse).collect(java.util.stream.Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponse> getOrdersByStore(Long storeId) {
         return orderRepository.findByStoreIdOrderByCreatedAtDesc(storeId).stream().map(this::toResponse).collect(java.util.stream.Collectors.toList());
     }

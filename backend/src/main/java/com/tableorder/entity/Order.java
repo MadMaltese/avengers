@@ -7,7 +7,8 @@ import java.util.*;
 
 @Entity @Table(name = "orders") @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Order {
-    @Id
+    @Id @Column(columnDefinition = "VARCHAR(36)")
+    @org.hibernate.annotations.Type(type = "uuid-char")
     private UUID id;
     @ManyToOne @JoinColumn(name = "store_id", nullable = false)
     private Store store;
@@ -20,7 +21,7 @@ public class Order {
     @Column(nullable = false)
     private Integer totalAmount;
     private LocalDateTime createdAt;
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 
     @PrePersist

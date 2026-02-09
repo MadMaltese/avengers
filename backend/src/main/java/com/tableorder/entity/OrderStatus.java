@@ -4,10 +4,10 @@ public enum OrderStatus {
     PENDING, PREPARING, COMPLETED;
 
     public boolean canTransitionTo(OrderStatus next) {
-        return switch (this) {
-            case PENDING -> next == PREPARING;
-            case PREPARING -> next == COMPLETED;
-            case COMPLETED -> false;
-        };
+        switch (this) {
+            case PENDING: return next == PREPARING;
+            case PREPARING: return next == COMPLETED;
+            default: return false;
+        }
     }
 }

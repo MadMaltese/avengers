@@ -68,6 +68,7 @@ public class TableService {
         sseService.broadcastOrderEvent(storeId, "TABLE_COMPLETED", Map.of("tableId", tableId));
     }
 
+    @Transactional(readOnly = true)
     public List<OrderHistoryResponse> getTableHistory(Long storeId, Long tableId, LocalDate dateFilter) {
         List<OrderHistory> histories;
         if (dateFilter != null) {

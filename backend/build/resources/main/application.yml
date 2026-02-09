@@ -2,15 +2,19 @@ spring:
   application:
     name: table-order
   datasource:
-    url: jdbc:postgresql://localhost:5432/tableorder
-    username: postgres
-    password: postgres
+    url: jdbc:h2:mem:tableorder;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     open-in-view: false
-  flyway:
-    locations: classpath:db/migration
+    database-platform: org.hibernate.dialect.H2Dialect
 
 jwt:
   secret: dGFibGVvcmRlci1zZWNyZXQta2V5LWZvci1qd3QtdG9rZW4tZ2VuZXJhdGlvbi0yMDI2

@@ -7,7 +7,8 @@ import java.util.*;
 
 @Entity @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class OrderHistory {
-    @Id
+    @Id @Column(columnDefinition = "VARCHAR(36)")
+    @org.hibernate.annotations.Type(type = "uuid-char")
     private UUID id;
     @Column(nullable = false)
     private Long storeId;
@@ -21,6 +22,6 @@ public class OrderHistory {
     private Integer totalAmount;
     private LocalDateTime createdAt;
     private LocalDateTime completedAt;
-    @OneToMany(mappedBy = "history", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "history", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<OrderHistoryItem> items = new ArrayList<>();
 }
